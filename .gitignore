@@ -15,3 +15,5 @@ bin
 
 tmp
 .air.*
+
+config/fcm-testing.json
