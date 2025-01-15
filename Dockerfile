@@ -22,7 +22,6 @@ WORKDIR /app
 
 # Copy the statically linked Go binary from the builder stage
 COPY --from=builder /app/jamme-app .
-COPY --from=builder /app/.env .
 
 # Run the Go binary
 CMD ["./jamme-app"]
