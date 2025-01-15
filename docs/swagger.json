@@ -1,26 +1,8 @@
 {
-    "schemes": [
-        "http",
-        "https"
-    ],
     "swagger": "2.0",
     "info": {
-        "description": "This is a backend server for Ovoyagers.",
-        "title": "Ovoyagers API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "Pet Care",
-            "url": "https://google.com",
-            "email": "azharuddinmohammed998@gmail.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "0.01"
+        "contact": {}
     },
-    "host": "localhost:4000",
-    "basePath": "/api/v1",
     "paths": {
         "/auth/create": {
             "post": {
@@ -2150,14 +2132,6 @@
                     "example": "6302068026"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "BearerAuth": {
-            "description": "Type \"Bearer \" before your access token",
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }
