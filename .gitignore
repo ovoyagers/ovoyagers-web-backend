@@ -1,0 +1,17 @@
+logs
+
+.env
+.env.local
+.env.dev
+.env.test
+.env.prod
+
+*.out
+
+.idea
+.ideas
+
+bin
+
+tmp
+.air.*

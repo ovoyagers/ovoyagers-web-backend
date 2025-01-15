@@ -1,0 +1,1543 @@
+basePath: /api/v1
+definitions:
+  authmodel.ForgetPasswordRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  authmodel.LoginEmailRequest:
+    properties:
+      email:
+        example: pecol35486@kwalah.com
+        type: string
+      password:
+        example: password123
+        maxLength: 64
+        minLength: 8
+        type: string
+      passwordless:
+        default: false
+        example: false
+        type: boolean
+    required:
+    - email
+    type: object
+  authmodel.LoginRequest:
+    properties:
+      countryCode:
+        type: string
+      phone:
+        type: string
+    required:
+    - countryCode
+    - phone
+    type: object
+  authmodel.OTP:
+    properties:
+      code:
+        maxLength: 6
+        minLength: 6
+        type: string
+      phone:
+        type: string
+    required:
+    - code
+    - phone
+    type: object
+  authmodel.RegisterRequest:
+    properties:
+      countryCode:
+        example: IN
+        type: string
+      email:
+        example: pecol35486@kwalah.com
+        type: string
+      fullname:
+        example: Pecol
+        maxLength: 64
+        minLength: 3
+        type: string
+      password:
+        example: password123
+        maxLength: 64
+        minLength: 8
+        type: string
+      phone:
+        example: "6302068026"
+        maxLength: 10
+        minLength: 10
+        type: string
+    required:
+    - countryCode
+    - email
+    - fullname
+    - password
+    - phone
+    type: object
+  authmodel.ResendEmailOTP:
+    properties:
+      email:
+        example: pecol35486@kwalah.com
+        type: string
+    required:
+    - email
+    type: object
+  authmodel.ResendOTP:
+    properties:
+      phone:
+        type: string
+    required:
+    - phone
+    type: object
+  authmodel.VerifyEmailRequest:
+    properties:
+      code:
+        example: "123456"
+        maxLength: 6
+        minLength: 6
+        type: string
+      email:
+        example: pecol35486@kwalah.com
+        type: string
+    required:
+    - code
+    - email
+    type: object
+  followmodel.FollowRequest:
+    properties:
+      friend_username:
+        type: string
+    required:
+    - friend_username
+    type: object
+  invitemodel.InviteUser:
+    properties:
+      created_at:
+        type: string
+      email:
+        example: test@example.com
+        type: string
+      expires_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      id:
+        type: string
+      status:
+        default: pending
+        example: pending
+        type: string
+      updated_at:
+        type: string
+    required:
+    - email
+    type: object
+  messaging.Notification:
+    properties:
+      body:
+        type: string
+      image:
+        type: string
+      title:
+        type: string
+    type: object
+  models.Error:
+    properties:
+      data: {}
+      error:
+        example: Internal Server Error
+        type: string
+      message:
+        example: Error message
+        type: string
+      status:
+        example: error
+        type: string
+      status_code:
+        example: 500
+        type: integer
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message:
+        example: Data fetched successfully
+        type: string
+      status:
+        example: success
+        type: string
+      status_code:
+        example: 200
+        type: integer
+    type: object
+  notificationmodel.SendNotificationRequest:
+    properties:
+      notification:
+        $ref: '#/definitions/messaging.Notification'
+      token:
+        type: string
+    required:
+    - notification
+    - token
+    type: object
+  petmodel.Pet:
+    properties:
+      breed:
+        example: golden-retriever
+        type: string
+      createdAt:
+        type: string
+      dob:
+        example: "2024-01-01T00:00:00Z"
+        type: string
+      gender:
+        enum:
+        - male
+        - female
+        - other
+        example: male
+        type: string
+      id:
+        type: string
+      isPrimary:
+        example: false
+        type: boolean
+      kind:
+        example: dog
+        type: string
+      name:
+        example: Bruno
+        type: string
+      profilePicture:
+        $ref: '#/definitions/petmodel.ProfilePicture'
+      updatedAt:
+        type: string
+      weight:
+        example: 10.5
+        type: number
+    required:
+    - breed
+    - dob
+    - gender
+    - kind
+    - name
+    type: object
+  petmodel.ProfilePicture:
+    properties:
+      fileId:
+        type: string
+      name:
+        type: string
+      thumbnailUrl:
+        type: string
+      url:
+        type: string
+    type: object
+  recordmodel.DeletePetMedicalRecordRequest:
+    properties:
+      fileIds:
+        items:
+          type: string
+        type: array
+    required:
+    - fileIds
+    type: object
+  usermodel.AboutUser:
+    properties:
+      dob:
+        type: string
+      email:
+        type: string
+      gender:
+        enum:
+        - male
+        - female
+        - other
+        type: string
+      name:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - dob
+    - email
+    - gender
+    - name
+    type: object
+  usermodel.Languages:
+    properties:
+      nativeLanguages:
+        items:
+          type: string
+        type: array
+      preferredLanguages:
+        items:
+          type: string
+        type: array
+    required:
+    - nativeLanguages
+    - preferredLanguages
+    type: object
+  usermodel.Name:
+    properties:
+      fullname:
+        maxLength: 100
+        minLength: 2
+        type: string
+    required:
+    - fullname
+    type: object
+  usermodel.UpdateUser:
+    properties:
+      age:
+        default: 0
+        example: 22
+        maximum: 130
+        minimum: 0
+        type: integer
+      countryCode:
+        example: IN
+        type: string
+      fullname:
+        example: Pecol
+        maxLength: 64
+        minLength: 3
+        type: string
+      gender:
+        enum:
+        - male
+        - female
+        - other
+        example: male
+        type: string
+      phone:
+        example: "6302068026"
+        maxLength: 10
+        minLength: 10
+        type: string
+    required:
+    - countryCode
+    - fullname
+    - phone
+    type: object
+host: localhost:4000
+info:
+  contact:
+    email: azharuddinmohammed998@gmail.com
+    name: Pet Care
+    url: https://google.com
+  description: This is a backend server for Pet Care.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Pet Care API
+  version: "0.01"
+paths:
+  /auth/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new User
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Create a new User
+      tags:
+      - auth
+  /auth/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: ForgotPassword
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.ForgetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: ForgotPassword
+      tags:
+      - auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.LoginEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Login a user
+      tags:
+      - auth
+  /auth/login-user:
+    post:
+      consumes:
+      - application/json
+      description: Login a pet
+      parameters:
+      - description: Login request
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Login a pet
+      tags:
+      - auth
+  /auth/logout:
+    get:
+      consumes:
+      - application/json
+      description: Logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Logout
+      tags:
+      - auth
+  /auth/refresh:
+    get:
+      consumes:
+      - application/json
+      description: Refresh
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Refresh
+      tags:
+      - auth
+  /auth/resend-email-otp:
+    post:
+      consumes:
+      - application/json
+      description: Resend Email OTP
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.ResendEmailOTP'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Resend Email OTP
+      tags:
+      - auth
+  /auth/resend-otp:
+    post:
+      consumes:
+      - application/json
+      description: Resend OTP
+      parameters:
+      - description: Phone
+        in: body
+        name: phone
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.ResendOTP'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Resend OTP
+      tags:
+      - auth
+  /auth/verify-email:
+    post:
+      consumes:
+      - application/json
+      description: Verify an email
+      parameters:
+      - description: Email
+        in: body
+        name: verify
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.VerifyEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Verify an email
+      tags:
+      - auth
+  /auth/verify-otp:
+    post:
+      consumes:
+      - application/json
+      description: Verify OTP
+      parameters:
+      - description: OTP
+        in: body
+        name: otp
+        required: true
+        schema:
+          $ref: '#/definitions/authmodel.OTP'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Verify OTP
+      tags:
+      - auth
+  /countries/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all country codes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Get all country codes
+      tags:
+      - Country Codes
+  /follow/accept:
+    post:
+      consumes:
+      - application/json
+      description: Accept Follow Request
+      parameters:
+      - description: Following User
+        in: body
+        name: followingUser
+        required: true
+        schema:
+          $ref: '#/definitions/followmodel.FollowRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Accept Follow Request
+      tags:
+      - follow
+  /follow/cancel:
+    post:
+      consumes:
+      - application/json
+      description: Cancel Follow Request
+      parameters:
+      - description: Following User
+        in: body
+        name: followingUser
+        required: true
+        schema:
+          $ref: '#/definitions/followmodel.FollowRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Cancel Follow Request
+      tags:
+      - follow
+  /follow/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Follow Request
+      parameters:
+      - description: Following User
+        in: body
+        name: followingUser
+        required: true
+        schema:
+          $ref: '#/definitions/followmodel.FollowRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Create Follow Request
+      tags:
+      - follow
+  /health/ping:
+    get:
+      consumes:
+      - application/json
+      description: Health check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      summary: Health check
+      tags:
+      - Health
+  /health/status:
+    get:
+      consumes:
+      - application/json
+      description: Private route testing
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      summary: Private route testing
+      tags:
+      - Health
+  /invite/send-invite:
+    post:
+      consumes:
+      - application/json
+      description: invite to user
+      parameters:
+      - description: invite
+        in: body
+        name: invite
+        required: true
+        schema:
+          $ref: '#/definitions/invitemodel.InviteUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: invite to user
+      tags:
+      - invite
+  /notifications/send:
+    post:
+      consumes:
+      - application/json
+      description: Sends a push notification to a user using the FCM Token
+      parameters:
+      - description: Notification
+        in: body
+        name: notification
+        required: true
+        schema:
+          $ref: '#/definitions/notificationmodel.SendNotificationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Sends a push notification to a user using the FCM Token
+      tags:
+      - notifications
+  /pet/delete-pet-image/{petId}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: pet id
+        in: path
+        name: petId
+        required: true
+        type: string
+      - description: file id
+        in: query
+        name: fileId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Deletes a pet image from the ImageKit service.
+      tags:
+      - pet
+  /pet/delete-pet/{petId}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: pet id
+        in: path
+        name: petId
+        required: true
+        type: string
+      - description: file id
+        in: query
+        name: fileId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: deletes a pet with the given id
+      tags:
+      - pet
+  /pet/insert-pet:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: pet
+        in: formData
+        name: pet
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: adds a new pet with image
+      tags:
+      - pet
+  /pet/list-pets:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/petmodel.Pet'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: returns the list of pets of the user
+      tags:
+      - pet
+  /pet/primary-pet:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/petmodel.Pet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: gets the primary pet of the user
+      tags:
+      - pet
+  /pet/update-pet:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: pet id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: pet details
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/petmodel.Pet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/petmodel.Pet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: updates the  pet of the user based on the petId
+      tags:
+      - pet
+  /pet/update-pet-image:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: pet id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Pet Image
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/petmodel.Pet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: updates the  pet image of the user based on the petId
+      tags:
+      - pet
+  /record/delete-medical-record/{recordId}:
+    post:
+      consumes:
+      - application/json
+      description: deletes the medical record of a pet given its id.
+      parameters:
+      - description: record id
+        in: path
+        name: recordId
+        required: true
+        type: string
+      - description: image ids
+        in: body
+        name: imageIds
+        required: true
+        schema:
+          $ref: '#/definitions/recordmodel.DeletePetMedicalRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: deletes the medical record of a pet given its id.
+      tags:
+      - records
+  /record/get-medical-record/{medicalRecordId}:
+    get:
+      consumes:
+      - application/json
+      description: retrieves the medical record of a pet given its id.
+      parameters:
+      - description: medical record id
+        in: path
+        name: medicalRecordId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: retrieves the medical record of a pet given its id.
+      tags:
+      - records
+  /record/get-medical-records/{petId}:
+    get:
+      consumes:
+      - application/json
+      description: retrieves the medical record of a pet given its id.
+      parameters:
+      - description: pet id
+        in: path
+        name: petId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: retrieves the medical record of a pet given its id.
+      tags:
+      - records
+  /record/insert-medical-records:
+    post:
+      consumes:
+      - multipart/form-data
+      description: adds a new medical record
+      parameters:
+      - description: records
+        in: formData
+        name: records
+        required: true
+        type: file
+      - description: description
+        in: formData
+        name: description
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: adds a new medical record
+      tags:
+      - records
+  /user/delete-profile-picture:
+    delete:
+      description: deletes a user profile picture
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: deletes a user profile picture
+      tags:
+      - users
+  /user/get-random-username:
+    get:
+      consumes:
+      - application/json
+      description: Generate Random Username
+      parameters:
+      - in: query
+        maxLength: 100
+        minLength: 2
+        name: fullname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Generate Random Username
+      tags:
+      - users
+  /user/me:
+    get:
+      consumes:
+      - application/json
+      description: get a user profile info
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: get a user profile info
+      tags:
+      - users
+  /user/update-about:
+    put:
+      consumes:
+      - application/json
+      description: Update About User
+      parameters:
+      - description: About User
+        in: body
+        name: aboutUser
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.AboutUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update About User
+      tags:
+      - users
+  /user/update-languages:
+    put:
+      consumes:
+      - application/json
+      description: Update Languages
+      parameters:
+      - description: Languages
+        in: body
+        name: languages
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.Languages'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Languages
+      tags:
+      - users
+  /user/update-user:
+    put:
+      consumes:
+      - application/json
+      description: Update a user's profile
+      parameters:
+      - description: User object
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.UpdateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update User
+      tags:
+      - users
+  /user/update-username:
+    put:
+      consumes:
+      - application/json
+      description: Update Username
+      parameters:
+      - description: Full Name
+        in: body
+        name: fullname
+        required: true
+        schema:
+          $ref: '#/definitions/usermodel.Name'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Update Username
+      tags:
+      - users
+  /user/upload-profile-picture:
+    put:
+      consumes:
+      - multipart/form-data
+      description: updates a user profile picture
+      parameters:
+      - description: avatar
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: updates a user profile picture
+      tags:
+      - users
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer " before your access token
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
