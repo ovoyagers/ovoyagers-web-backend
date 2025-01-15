@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/petmeds24/backend/config"
-	docs "github.com/petmeds24/backend/docs"
+	_ "github.com/petmeds24/backend/docs"
 	"github.com/petmeds24/backend/pkg/rest/src/middlewares"
 	"github.com/petmeds24/backend/pkg/rest/src/routes"
 	swaggerfiles "github.com/swaggo/files"
@@ -41,9 +41,6 @@ func main() {
 	globalCfg := config.NewGlobalConfig(ctx)
 	cfg := globalCfg.GetConfig()
 
-	baseURL, schema := GetBaseURLAndSchema(cfg)
-	UpdateSwaggerInfo(baseURL, schema)
-
 	// Set up Gin server
 	server := gin.Default()
 	server.Use(middlewares.CorsMiddleware("*"))
@@ -54,14 +51,14 @@ func main() {
 	mainRoute.SetupRoutes()
 
 	// Swagger configuration
-	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true), ginSwagger.URL(baseURL)))
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true)))
 
 	// No route found
 	noRoute := routes.NewNoRoute()
 	server.NoRoute(noRoute.NoRouteFound)
 
 	// Log and start server
-	log.Infof("Server is running at %s://%s in %s environment", schema, baseURL, cfg.ENVIRONMENT)
+	log.Infof("Server is running in %s environment", cfg.ENVIRONMENT)
 	go func() {
 		if err := server.Run(":" + cfg.PORT); err != nil {
 			log.Fatalf("Failed to run server: %v", err)
@@ -70,18 +67,6 @@ func main() {
 
 	<-ctx.Done()
 	log.Info("Shutting down gracefully...")
-}
-
-func UpdateSwaggerInfo(baseURL, schema string) {
-	docs.SwaggerInfo.Host = baseURL
-	docs.SwaggerInfo.Schemes = []string{schema}
-}
-
-func GetBaseURLAndSchema(cfg *config.Config) (string, string) {
-	if cfg.ENVIRONMENT == "local" {
-		return "http://localhost:4000/api/v1", "http"
-	}
-	return "https://ovoyagers-web-backend.onrender.com/api/v1", "https"
 }
 
 func init() {
