@@ -17,6 +17,22 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title						Ovoyagers API
+// @version					0.01
+// @description				This is a backend server for Ovoyagers.
+// @termsOfService				http://swagger.io/terms/
+// @contact.name				Pet Care
+// @contact.url				https://google.com
+// @contact.email				azharuddinmohammed998@gmail.com
+// @license.name				Apache 2.0
+// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+// @host						localhost:4000
+// @BasePath					/api/v1
+// @schemes					http https
+// @securityDefinitions.apiKey	BearerAuth
+// @in							header
+// @name						Authorization
+// @description				Type "Bearer " before your access token
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
@@ -62,12 +78,11 @@ func UpdateSwaggerInfo(baseURL, schema string) {
 }
 
 func GetBaseURLAndSchema(cfg *config.Config) (string, string) {
-    if cfg.ENVIRONMENT == "local" {
-        return "http://localhost:4000/api/v1", "http"
-    }
-    return "https://ovoyagers-web-backend.onrender.com/api/v1", "https"
+	if cfg.ENVIRONMENT == "local" {
+		return "http://localhost:4000/api/v1", "http"
+	}
+	return "https://ovoyagers-web-backend.onrender.com/api/v1", "https"
 }
-
 
 func init() {
 	gin.SetMode(gin.ReleaseMode)

@@ -1,3 +1,4 @@
+basePath: /api/v1
 definitions:
   authmodel.ForgetPasswordRequest:
     properties:
@@ -291,8 +292,19 @@ definitions:
     - fullname
     - phone
     type: object
+host: localhost:4000
 info:
-  contact: {}
+  contact:
+    email: azharuddinmohammed998@gmail.com
+    name: Pet Care
+    url: https://google.com
+  description: This is a backend server for Ovoyagers.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Ovoyagers API
+  version: "0.01"
 paths:
   /auth/create:
     post:
@@ -1388,4 +1400,13 @@ paths:
       summary: updates a user profile picture
       tags:
       - users
+schemes:
+- http
+- https
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer " before your access token
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
