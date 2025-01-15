@@ -24,35 +24,13 @@ definitions:
     required:
     - email
     type: object
-  authmodel.LoginRequest:
-    properties:
-      countryCode:
-        type: string
-      phone:
-        type: string
-    required:
-    - countryCode
-    - phone
-    type: object
-  authmodel.OTP:
-    properties:
-      code:
-        maxLength: 6
-        minLength: 6
-        type: string
-      phone:
-        type: string
-    required:
-    - code
-    - phone
-    type: object
   authmodel.RegisterRequest:
     properties:
       countryCode:
         example: IN
         type: string
       email:
-        example: pecol35486@kwalah.com
+        example: pecol35486@ovoyagers.com
         type: string
       fullname:
         example: Pecol
@@ -84,13 +62,6 @@ definitions:
     required:
     - email
     type: object
-  authmodel.ResendOTP:
-    properties:
-      phone:
-        type: string
-    required:
-    - phone
-    type: object
   authmodel.VerifyEmailRequest:
     properties:
       code:
@@ -99,7 +70,7 @@ definitions:
         minLength: 6
         type: string
       email:
-        example: pecol35486@kwalah.com
+        example: pecol35486@ovoyagers.com
         type: string
     required:
     - code
@@ -327,12 +298,12 @@ info:
     email: azharuddinmohammed998@gmail.com
     name: Pet Care
     url: https://google.com
-  description: This is a backend server for Pet Care.
+  description: This is a backend server for Ovoyagers.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Pet Care API
+  title: Ovoyagers API
   version: "0.01"
 paths:
   /auth/create:
@@ -435,40 +406,6 @@ paths:
       summary: Login a user
       tags:
       - auth
-  /auth/login-user:
-    post:
-      consumes:
-      - application/json
-      description: Login a pet
-      parameters:
-      - description: Login request
-        in: body
-        name: login
-        required: true
-        schema:
-          $ref: '#/definitions/authmodel.LoginRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "422":
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Login a pet
-      tags:
-      - auth
   /auth/logout:
     get:
       consumes:
@@ -563,40 +500,6 @@ paths:
       summary: Resend Email OTP
       tags:
       - auth
-  /auth/resend-otp:
-    post:
-      consumes:
-      - application/json
-      description: Resend OTP
-      parameters:
-      - description: Phone
-        in: body
-        name: phone
-        required: true
-        schema:
-          $ref: '#/definitions/authmodel.ResendOTP'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "422":
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Resend OTP
-      tags:
-      - auth
   /auth/verify-email:
     post:
       consumes:
@@ -625,40 +528,6 @@ paths:
           schema:
             $ref: '#/definitions/models.Error'
       summary: Verify an email
-      tags:
-      - auth
-  /auth/verify-otp:
-    post:
-      consumes:
-      - application/json
-      description: Verify OTP
-      parameters:
-      - description: OTP
-        in: body
-        name: otp
-        required: true
-        schema:
-          $ref: '#/definitions/authmodel.OTP'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Response'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Error'
-        "422":
-          description: Unprocessable Entity
-          schema:
-            $ref: '#/definitions/models.Error'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/models.Error'
-      summary: Verify OTP
       tags:
       - auth
   /countries/all:

@@ -179,58 +179,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/login-user": {
-            "post": {
-                "description": "Login a pet",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Login a pet",
-                "parameters": [
-                    {
-                        "description": "Login request",
-                        "name": "login",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/authmodel.LoginRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
         "/auth/logout": {
             "get": {
                 "security": [
@@ -376,58 +324,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/resend-otp": {
-            "post": {
-                "description": "Resend OTP",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Resend OTP",
-                "parameters": [
-                    {
-                        "description": "Phone",
-                        "name": "phone",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/authmodel.ResendOTP"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
         "/auth/verify-email": {
             "post": {
                 "description": "Verify an email",
@@ -453,58 +349,6 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/verify-otp": {
-            "post": {
-                "description": "Verify OTP",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "auth"
-                ],
-                "summary": "Verify OTP",
-                "parameters": [
-                    {
-                        "description": "OTP",
-                        "name": "otp",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/authmodel.OTP"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -1936,38 +1780,6 @@ const docTemplate = `{
                 }
             }
         },
-        "authmodel.LoginRequest": {
-            "type": "object",
-            "required": [
-                "countryCode",
-                "phone"
-            ],
-            "properties": {
-                "countryCode": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "authmodel.OTP": {
-            "type": "object",
-            "required": [
-                "code",
-                "phone"
-            ],
-            "properties": {
-                "code": {
-                    "type": "string",
-                    "maxLength": 6,
-                    "minLength": 6
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
         "authmodel.RegisterRequest": {
             "type": "object",
             "required": [
@@ -1984,7 +1796,7 @@ const docTemplate = `{
                 },
                 "email": {
                     "type": "string",
-                    "example": "pecol35486@kwalah.com"
+                    "example": "pecol35486@ovoyagers.com"
                 },
                 "fullname": {
                     "type": "string",
@@ -2018,17 +1830,6 @@ const docTemplate = `{
                 }
             }
         },
-        "authmodel.ResendOTP": {
-            "type": "object",
-            "required": [
-                "phone"
-            ],
-            "properties": {
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
         "authmodel.VerifyEmailRequest": {
             "type": "object",
             "required": [
@@ -2044,7 +1845,7 @@ const docTemplate = `{
                 },
                 "email": {
                     "type": "string",
-                    "example": "pecol35486@kwalah.com"
+                    "example": "pecol35486@ovoyagers.com"
                 }
             }
         },
@@ -2369,8 +2170,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:4000",
 	BasePath:         "/api/v1",
 	Schemes:          []string{"http", "https"},
-	Title:            "Pet Care API",
-	Description:      "This is a backend server for Pet Care.",
+	Title:            "Ovoyagers API",
+	Description:      "This is a backend server for Ovoyagers.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

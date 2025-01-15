@@ -9,16 +9,16 @@ import (
 
 	// Swagger imports
 	"github.com/petmeds24/backend/config"
-	_ "github.com/petmeds24/backend/docs"
+	docs "github.com/petmeds24/backend/docs"
 	"github.com/petmeds24/backend/pkg/rest/src/middlewares"
 	"github.com/petmeds24/backend/pkg/rest/src/routes"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title						Pet Care API
+// @title						Ovoyagers API
 // @version					0.01
-// @description				This is a backend server for Pet Care.
+// @description				This is a backend server for Ovoyagers.
 // @termsOfService				http://swagger.io/terms/
 // @contact.name				Pet Care
 // @contact.url				https://google.com
@@ -33,12 +33,24 @@ import (
 // @name						Authorization
 // @description				Type "Bearer " before your access token
 func main() {
+	// variables
+	var baseURL	string
+	var schema	string
+
 	// Set up context
 	ctx := context.Background()
 
 	// Set up configuration
 	globalCfg := config.NewGlobalConfig(ctx)
 	cfg := globalCfg.GetConfig()
+
+	if cfg.ENVIRONMENT == "local" {
+		baseURL = "http://localhost:4000/api/v1"
+		schema = "http"
+	} else {
+		baseURL = "https://ovoyagers-web-backend.onrender.com/api/v1"
+		schema = "https"
+	}
 
 	// Set up Gin server
 	server := gin.Default()
@@ -53,8 +65,8 @@ func main() {
 	mainRoute := routes.NewMainRoute(globalCfg, router)
 
 	// Swagger configuration to serve the API docs
-	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true)))
-
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true), ginSwagger.URL(baseURL)))
+	docs.SwaggerInfo.Schemes = []string{schema}
 	// No route found
 	noRoute := routes.NewNoRoute()
 	server.NoRoute(noRoute.NoRouteFound)
