@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/petmeds24/backend/config"
-	_ "github.com/petmeds24/backend/docs"
+	docs "github.com/petmeds24/backend/docs"
 	"github.com/petmeds24/backend/pkg/rest/src/middlewares"
 	"github.com/petmeds24/backend/pkg/rest/src/routes"
 	swaggerfiles "github.com/swaggo/files"
@@ -18,7 +18,7 @@ import (
 )
 
 // @title						Ovoyagers API
-// @version					0.01
+// @version					0.10
 // @description				This is a backend server for Ovoyagers.
 // @termsOfService				http://swagger.io/terms/
 // @contact.name				Pet Care
@@ -26,9 +26,7 @@ import (
 // @contact.email				azharuddinmohammed998@gmail.com
 // @license.name				Apache 2.0
 // @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
-// @host						localhost:4000
 // @BasePath					/api/v1
-// @schemes					http https
 // @securityDefinitions.apiKey	BearerAuth
 // @in							header
 // @name						Authorization
@@ -37,9 +35,22 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	var (
+		host    string
+		schemes []string
+	)
+
 	// Set up configuration
 	globalCfg := config.NewGlobalConfig(ctx)
 	cfg := globalCfg.GetConfig()
+
+	if cfg.ENVIRONMENT == "local" {
+		host = "localhost:4000"
+		schemes = []string{"http"}
+	} else {
+		host = "ovoyagers-web-backend.onrender.com"
+		schemes = []string{"https"}
+	}
 
 	// Set up Gin server
 	server := gin.Default()
@@ -49,6 +60,11 @@ func main() {
 	router := server.Group("/api/v1")
 	mainRoute := routes.NewMainRoute(globalCfg, router)
 	mainRoute.SetupRoutes()
+
+	// dynamic docs
+	docs.SwaggerInfo.Host = host
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	docs.SwaggerInfo.Schemes = schemes
 
 	// Swagger configuration
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true)))

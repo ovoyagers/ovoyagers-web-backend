@@ -1,8 +1,4 @@
 {
-    "schemes": [
-        "http",
-        "https"
-    ],
     "swagger": "2.0",
     "info": {
         "description": "This is a backend server for Ovoyagers.",
@@ -17,9 +13,8 @@
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
-        "version": "0.01"
+        "version": "0.10"
     },
-    "host": "localhost:4000",
     "basePath": "/api/v1",
     "paths": {
         "/auth/create": {

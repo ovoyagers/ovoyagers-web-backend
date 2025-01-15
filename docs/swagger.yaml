@@ -292,7 +292,6 @@ definitions:
     - fullname
     - phone
     type: object
-host: localhost:4000
 info:
   contact:
     email: azharuddinmohammed998@gmail.com
@@ -304,7 +303,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
   title: Ovoyagers API
-  version: "0.01"
+  version: "0.10"
 paths:
   /auth/create:
     post:
@@ -1400,9 +1399,6 @@ paths:
       summary: updates a user profile picture
       tags:
       - users
-schemes:
-- http
-- https
 securityDefinitions:
   BearerAuth:
     description: Type "Bearer " before your access token

@@ -2166,10 +2166,10 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "0.01",
-	Host:             "localhost:4000",
+	Version:          "0.10",
+	Host:             "",
 	BasePath:         "/api/v1",
-	Schemes:          []string{"http", "https"},
+	Schemes:          []string{},
 	Title:            "Ovoyagers API",
 	Description:      "This is a backend server for Ovoyagers.",
 	InfoInstanceName: "swagger",
