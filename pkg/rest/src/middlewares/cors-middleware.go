@@ -6,7 +6,7 @@ import (
 
 func CorsMiddleware(domain string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		allowedOrigins := []string{"http://localhost:5173", "https://petmeds24.vercel.app", "http://localhost:4173", "http://localhost:8081", "http://192.168.29.109:8081"}
+		allowedOrigins := []string{"http://localhost:5173", "https://ovoyagers.com", "https://www.ovoyagers.com", "http://localhost:4173", "http://localhost:3000"}
 
 		origin := c.Request.Header.Get("Origin")
 		allowOrigin := ""
