@@ -83,6 +83,39 @@ definitions:
     required:
     - friend_username
     type: object
+  formmodel.Form:
+    properties:
+      category:
+        enum:
+        - contact
+        - hotel
+        - flights
+        example: contact
+        type: string
+      created_at:
+        type: string
+      email:
+        example: pecol35486@ovoyagers.com
+        type: string
+      fullname:
+        example: John Doe
+        type: string
+      id:
+        type: string
+      message:
+        example: This is a test message
+        type: string
+      mobile:
+        example: "+918765432100"
+        type: string
+      updated_at:
+        type: string
+    required:
+    - category
+    - email
+    - message
+    - mobile
+    type: object
   invitemodel.InviteUser:
     properties:
       created_at:
@@ -672,6 +705,40 @@ paths:
       summary: Create Follow Request
       tags:
       - follow
+  /form/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new form for ovoyagers website with the specific category
+      parameters:
+      - description: Form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/formmodel.Form'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Create a new form
+      tags:
+      - form
   /health/ping:
     get:
       consumes:

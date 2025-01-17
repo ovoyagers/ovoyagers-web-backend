@@ -594,6 +594,58 @@ const docTemplate = `{
                 }
             }
         },
+        "/form/create": {
+            "post": {
+                "description": "Create a new form for ovoyagers website with the specific category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "form"
+                ],
+                "summary": "Create a new form",
+                "parameters": [
+                    {
+                        "description": "Form",
+                        "name": "form",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/formmodel.Form"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/health/ping": {
             "get": {
                 "description": "Health check",
@@ -1856,6 +1908,51 @@ const docTemplate = `{
             ],
             "properties": {
                 "friend_username": {
+                    "type": "string"
+                }
+            }
+        },
+        "formmodel.Form": {
+            "type": "object",
+            "required": [
+                "category",
+                "email",
+                "message",
+                "mobile"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "contact",
+                        "hotel",
+                        "flights"
+                    ],
+                    "example": "contact"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "pecol35486@ovoyagers.com"
+                },
+                "fullname": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "This is a test message"
+                },
+                "mobile": {
+                    "type": "string",
+                    "example": "+918765432100"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
