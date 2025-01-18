@@ -1,0 +1,10 @@
+#!/bin/sh
+echo "========= Running pre-commit hook ========="
+echo "Running go fmt"
+go fmt .
+echo "Running go vet"
+go vet .
+echo "Running golangci-lint"
+golangci-lint run --timeout 5m
+echo "Running go sec with generated files excluded"
+gosec -exclude-generated ./...
