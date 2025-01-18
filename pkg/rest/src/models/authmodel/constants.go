@@ -37,13 +37,17 @@ var customErrorMessages = map[string]string{
 
 func validateStruct(s interface{}) error {
 	validate := validator.New()
-	validate.RegisterValidation("emaildomain", func(fl validator.FieldLevel) bool {
+	err := validate.RegisterValidation("emaildomain", func(fl validator.FieldLevel) bool {
 		email := fl.Field().String()
 		domain := strings.Split(email, "@")[1]
 		return domain == "ovoyagers.com"
 	})
 
-	validate.RegisterValidation("pswd", func(fl validator.FieldLevel) bool {
+	if err != nil {
+		return err
+	}
+
+	err = validate.RegisterValidation("pswd", func(fl validator.FieldLevel) bool {
 		password := fl.Field().String()
 		// Check regex with at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character
 		return regexp.MustCompile(`^[a-zA-Z\d@$!%*?&]{8,}$`).MatchString(password) &&
@@ -52,8 +56,10 @@ func validateStruct(s interface{}) error {
 			regexp.MustCompile(`\d`).MatchString(password) &&
 			regexp.MustCompile(`[^a-zA-Z0-9]`).MatchString(password)
 	})
-	err := validate.Struct(s)
 	if err != nil {
+		return err
+	}
+	if err := validate.Struct(s); err != nil {
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
 			var errMsgs []string
 			for _, validationErr := range validationErrors {

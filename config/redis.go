@@ -32,6 +32,6 @@ func (rc *RedisConfig) GetRedisClient() *redis.Client {
 	return rc.redisClient
 }
 
-func (rc *RedisConfig) CloseRedisClient() {
-	rc.redisClient.Close()
+func (rc *RedisConfig) CloseRedisClient() error {
+	return rc.redisClient.Close()
 }

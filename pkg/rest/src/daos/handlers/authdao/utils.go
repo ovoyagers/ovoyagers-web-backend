@@ -16,7 +16,7 @@ func (authDao *AuthDao) IsUserExists(user authmodel.CheckUser) (bool, error) {
 	if user.Email != "" {
 		query = "MATCH (u:User {email: $email}) RETURN u"
 	}
-	
+
 	params := map[string]interface{}{"email": user.Email, "id": user.Id}
 	result, err := neo4j.ExecuteQuery(authDao.ctx, authDao.DB, query, params, neo4j.EagerResultTransformer)
 	if err != nil {

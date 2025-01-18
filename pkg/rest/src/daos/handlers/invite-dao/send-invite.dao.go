@@ -30,7 +30,7 @@ func (id *InviteDao) SendInvite(invite invitemodel.InviteUser, userId string) er
 	// return error if invite already exists
 	if exists {
 		return errors.New("invite already exists")
-	} 
+	}
 
 	query := `MATCH (u:User {id: $userId}) CREATE (i:Invite {id: $id, email: $email, status: $status, expiresAt: $expiresAt})-[:INVITE {createdAt: $createdAt, updatedAt: $updatedAt}]->(u)`
 	if _, err := neo4j.ExecuteQuery(id.ctx, id.DB, query, params, neo4j.EagerResultTransformer); err != nil {

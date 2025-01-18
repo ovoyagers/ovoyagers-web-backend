@@ -210,7 +210,6 @@ func (authDao *AuthDao) VerifyOTP(email string) (map[string]interface{}, error) 
 	return properties, nil
 }
 
-
 func (authdao *AuthDao) ForgetPassword(email string) (map[string]interface{}, error) {
 	return nil, nil
 }

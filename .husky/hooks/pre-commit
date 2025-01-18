@@ -1,10 +1,33 @@
 #!/bin/sh
 echo "========= Running pre-commit hook ========="
-echo "Running go fmt"
-go fmt .
-echo "Running go vet"
-go vet .
-echo "Running golangci-lint"
+
+# Run go fmt to format the code
+echo "Running go fmt..."
+go fmt ./...
+
+# Run go vet for static analysis
+echo "Running go vet..."
+go vet ./...
+
+# Ensure go.mod and go.sum are tidy
+echo "Running go mod tidy..."
+go mod tidy
+
+# Run golangci-lint for linting
+echo "Running golangci-lint..."
 golangci-lint run --timeout 5m
-echo "Running go sec with generated files excluded"
+if [ $? -ne 0 ]; then
+  echo "golangci-lint failed. Please fix the issues and try again."
+  exit 1
+fi
+
+# Run gosec for security scanning
+echo "Running gosec with generated files excluded..."
 gosec -exclude-generated ./...
+if [ $? -ne 0 ]; then
+  echo "gosec detected security issues. Please resolve them and try again."
+  exit 1
+fi
+
+echo "All checks passed!"
+exit 0

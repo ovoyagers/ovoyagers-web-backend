@@ -11,7 +11,7 @@ type PetRoute struct {
 	petController *petcontroller.PetController
 }
 
-func NewPetRoute(globalCfg *config.GlobalConfig)PetRoute {
+func NewPetRoute(globalCfg *config.GlobalConfig) PetRoute {
 	pc := petcontroller.NewPetController(globalCfg)
 	return PetRoute{petController: pc}
 }

@@ -93,8 +93,8 @@ func (ju *JWTUtil) ValidateAccessToken(tokenString string) (map[string]interface
 		return nil, err
 	}
 	userInfo := map[string]interface{}{
-		"id": claims["user_id"],
-		"email":   claims["email"],
+		"id":    claims["user_id"],
+		"email": claims["email"],
 	}
 	return userInfo, nil
 }
@@ -115,8 +115,8 @@ func (ju *JWTUtil) ValidateRefreshToken(tokenString string) (map[string]interfac
 		return nil, err
 	}
 	userInfo := map[string]interface{}{
-		"id": claims["user_id"],
-		"email":   claims["email"],
+		"id":    claims["user_id"],
+		"email": claims["email"],
 	}
 	return userInfo, nil
 }
