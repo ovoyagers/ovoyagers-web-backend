@@ -324,7 +324,7 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 		if refreshToken == "" {
 			refreshToken = c.Request.Header.Get("x-refresh-token")
 			if refreshToken == "" {
-				utils.HTTPErrorHandler(c, err, http.StatusForbidden, "Status forbidden")
+				utils.HTTPErrorHandler(c, err, http.StatusForbidden, "refresh token not found")
 				return
 			}
 		}
@@ -332,13 +332,13 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 
 	claims, err := jwtUtil.ValidateRefreshToken(refreshToken)
 	if err != nil {
-		utils.HTTPErrorHandler(c, err, http.StatusForbidden, "Status forbidden")
+		utils.HTTPErrorHandler(c, err, http.StatusForbidden, "refresh token is invalid")
 		return
 	}
 
 	user, err := ac.authService.CheckUser(claims["email"].(string))
 	if err != nil || len(user) < 1 {
-		utils.HTTPErrorHandler(c, err, http.StatusNotFound, "Status Not Found")
+		utils.HTTPErrorHandler(c, err, http.StatusNotFound, "user not found or incorrect")
 		return
 	}
 
