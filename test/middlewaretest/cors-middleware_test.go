@@ -10,7 +10,7 @@ import (
 
 func TestCorsMiddlewareWithCustomDomain(t *testing.T) {
 	router := gin.Default()
-	router.Use(middlewares.CorsMiddleware("https://example.com"))
+	router.Use(middlewares.CorsMiddleware())
 	router.GET("/", func(c *gin.Context) {
 		c.String(200, "OK")
 	})
@@ -26,7 +26,7 @@ func TestCorsMiddlewareWithCustomDomain(t *testing.T) {
 
 func TestCorsMiddlewareWithNoDomain(t *testing.T) {
 	router := gin.Default()
-	router.Use(middlewares.CorsMiddleware(""))
+	router.Use(middlewares.CorsMiddleware())
 	router.GET("/health/ping", func(c *gin.Context) {
 		c.String(200, "OK")
 	})
@@ -41,7 +41,7 @@ func TestCorsMiddlewareWithNoDomain(t *testing.T) {
 
 func TestCorsMiddlewareWithRequestMethodOptions(t *testing.T) {
 	router := gin.Default()
-	router.Use(middlewares.CorsMiddleware(""))
+	router.Use(middlewares.CorsMiddleware())
 	router.OPTIONS("/test", func(c *gin.Context) {
 		c.String(200, "OK")
 	})

@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CorsMiddleware(domain string) gin.HandlerFunc {
+func CorsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		allowedOrigins := []string{"http://localhost:5173", "https://ovoyagers.com", "https://www.ovoyagers.com", "http://localhost:4173", "http://localhost:3000", "https://bidmytour.com", "https://www.bidmytour.com"}
+		allowedOrigins := []string{"http://localhost:5173", "https://ovoyagers.com", "https://www.ovoyagers.com", "http://localhost:4173", "http://localhost:3000", "https://bidmytour.com", "https://www.bidmytour.com", "https://ovoyagers-web-backend.onrender.com", "https://www.ovoyagers-web-backend.onrender.com"}
 
 		origin := c.Request.Header.Get("Origin")
 		allowOrigin := ""

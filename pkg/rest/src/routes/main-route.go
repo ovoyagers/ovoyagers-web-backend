@@ -20,6 +20,7 @@ func NewMainRoute(globalCfg *config.GlobalConfig, rg *gin.RouterGroup) MainRoute
 func (r MainRoute) SetupRoutes() {
 	authRoute := NewAuthRoute(r.globalCfg)
 	formRoute := NewFormRoute(r.globalCfg)
+	dashboardRoute := NewDashboardRoute(r.globalCfg)
 	userRoute := NewUserRoute(r.globalCfg)
 	petRoute := NewPetRoute(r.globalCfg)
 	recordRoute := NewRecordRoute(r.globalCfg)
@@ -32,6 +33,7 @@ func (r MainRoute) SetupRoutes() {
 	countrycodeRoute.SetupCountryCodeRoute(r.routerGroup)
 	authRoute.SetupAuthRoute(r.routerGroup)
 	formRoute.SetupFormRoute(r.routerGroup)
+	dashboardRoute.SetupDashboardRoute(r.routerGroup)
 	userRoute.SetupUserRoute(r.routerGroup)
 	petRoute.SetupPetRoute(r.routerGroup)
 	recordRoute.SetupRecordRoute(r.routerGroup)

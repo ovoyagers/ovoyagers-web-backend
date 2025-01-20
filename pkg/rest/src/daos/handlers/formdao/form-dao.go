@@ -75,3 +75,83 @@ func (formDao *FormDao) CreateForm(form *formmodel.Form) (string, error) {
 
 	return "", fmt.Errorf("no records found in query result")
 }
+
+func (formDao *FormDao) GetForms(limit, page, offset int) ([]map[string]interface{}, int, error) {
+	params := map[string]interface{}{
+		"limit":  limit,
+		"page":   page,
+		"offset": offset,
+	}
+	query := `
+        MATCH (f:Form)
+		WITH f
+		ORDER BY f.createdAt DESC
+		SKIP $offset
+		LIMIT $limit
+		MATCH (a:Form)
+		RETURN f, count(a) AS totalCount
+    `
+	result, err := neo4j.ExecuteQuery(formDao.ctx, formDao.DB, query, params, neo4j.EagerResultTransformer)
+	if err != nil {
+		return nil, 0, fmt.Errorf("error executing query: %w", err)
+	}
+	count := len(result.Records)
+	if count == 0 {
+		return nil, count, fmt.Errorf("no forms found")
+	}
+	forms := make([]map[string]interface{}, len(result.Records))
+	for i, record := range result.Records {
+		formNode, _, err := neo4j.GetRecordValue[neo4j.Node](record, "f")
+		if err != nil {
+			return nil, 0, fmt.Errorf("error getting record value: %w", err)
+		}
+		forms[i] = formNode.Props
+		countNode, _, err := neo4j.GetRecordValue[int64](record, "totalCount")
+		if err != nil {
+			return nil, 0, fmt.Errorf("error getting record value: %w", err)
+		}
+		count = int(countNode)
+	}
+	return forms, count, nil
+}
+
+func (formDao *FormDao) GetFormsByCategory(category string, limit, page, offset int) ([]map[string]interface{}, int, error) {
+	params := map[string]interface{}{
+		"category": category,
+		"limit":  limit,
+		"page":   page,
+		"offset": offset,
+	}
+	// Query to get forms by category
+	query := `
+        MATCH (f:Form {category: $category})
+		WITH f
+		ORDER BY f.createdAt DESC
+		SKIP $offset
+		LIMIT $limit
+		MATCH (a:Form {category: $category})
+		RETURN f, count(a) AS totalCount
+    `
+	result, err := neo4j.ExecuteQuery(formDao.ctx, formDao.DB, query, params, neo4j.EagerResultTransformer)
+	if err != nil {
+		return nil, 0, fmt.Errorf("error executing query: %w", err)
+	}
+	count := len(result.Records)
+	if count == 0 {
+		return nil, count, fmt.Errorf("no forms found")
+	}
+	forms := make([]map[string]interface{}, len(result.Records))
+	for i, record := range result.Records {
+		formNode, _, err := neo4j.GetRecordValue[neo4j.Node](record, "f")
+		if err != nil {
+			return nil, 0, fmt.Errorf("error getting record value: %w", err)
+		}
+		forms[i] = formNode.Props
+		countNode, _, err := neo4j.GetRecordValue[int64](record, "totalCount")
+		if err != nil {
+			return nil, 0, fmt.Errorf("error getting record value: %w", err)
+		}
+		count = int(countNode)
+	}
+	return forms, count, nil
+}

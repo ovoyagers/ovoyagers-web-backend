@@ -327,7 +327,7 @@ definitions:
     type: object
 info:
   contact:
-    email: azharuddinmohammed998@gmail.com
+    email: developer@ovoyagers.com
     name: Pet Care
     url: https://google.com
   description: This is a backend server for Ovoyagers.
@@ -585,6 +585,28 @@ paths:
       summary: Get all country codes
       tags:
       - Country Codes
+  /dashboard/web-analytics:
+    get:
+      consumes:
+      - application/json
+      description: Fetches web analytics data from the service and returns it in the
+        response.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "404":
+          description: Status Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Retrieve web analytics data
+      tags:
+      - analytics
   /follow/accept:
     post:
       consumes:
@@ -705,6 +727,92 @@ paths:
       summary: Create Follow Request
       tags:
       - follow
+  /form/all:
+    get:
+      description: Get a list of forms in the database, with pagination support
+      parameters:
+      - description: Limit of the number of records to return
+        in: query
+        name: limit
+        type: integer
+      - description: Page of the number of records to return
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get forms
+      tags:
+      - form
+  /form/by-category:
+    get:
+      description: Get a list of forms in the database, with pagination support, filtered
+        by category
+      parameters:
+      - description: Category of the forms
+        in: query
+        name: category
+        required: true
+        type: string
+      - description: Limit of the number of records to return
+        in: query
+        name: limit
+        type: integer
+      - description: Page of the number of records to return
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/models.Error'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      security:
+      - BearerAuth: []
+      summary: Get forms by category
+      tags:
+      - form
   /form/create:
     post:
       consumes:

@@ -17,3 +17,11 @@ func NewFormService(globalCfg *config.GlobalConfig) *FormService {
 func (f *FormService) CreateForm(form *formmodel.Form) (string, error) {
 	return f.formDao.CreateForm(form)
 }
+
+func (f *FormService) GetForms(limit, page, offset int) ([]map[string]interface{}, int, error) {
+	return f.formDao.GetForms(limit, page, offset)
+}
+
+func (f *FormService) GetFormsByCategory(category string, limit, page, offset int) ([]map[string]interface{}, int, error) {
+	return f.formDao.GetFormsByCategory(category, limit, page, offset)
+}
