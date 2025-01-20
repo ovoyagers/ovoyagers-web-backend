@@ -12,11 +12,13 @@ import (
 	"github.com/petmeds24/backend/pkg/rest/src/models/authmodel"
 	"github.com/petmeds24/backend/pkg/rest/src/services/authservice"
 	"github.com/petmeds24/backend/pkg/rest/src/utils"
+	"github.com/petmeds24/backend/pkg/rest/src/utils/constants"
 	log "github.com/sirupsen/logrus"
 )
 
 type AuthController struct {
 	authService *authservice.AuthService
+	consts      *constants.Constants
 }
 
 var (
@@ -27,6 +29,7 @@ var (
 func NewAuthController(globalCfg *config.GlobalConfig) *AuthController {
 	return &AuthController{
 		authService: authservice.NewAuthService(globalCfg),
+		consts:      constants.GetConstants(globalCfg.GetConfig()),
 	}
 }
 
@@ -69,7 +72,6 @@ func (ac *AuthController) RegisterUser(c *gin.Context) {
 		utils.HTTPErrorWithDataHandler(c, http.StatusConflict, message, userExists)
 		return
 	}
-
 	// Generate OTP
 	code, err := utils.GenerateOTP(6)
 	if err != nil {
@@ -159,9 +161,9 @@ func (ac *AuthController) VerifyEmail(c *gin.Context) {
 		utils.HTTPErrorHandler(c, err, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
-	c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
-	c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
-	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+	c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
 	utils.HTTPResponseHandler(c, user, http.StatusOK, "Email verified successfully")
 }
 
@@ -298,9 +300,9 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 		"token": token,
 		"user":  user,
 	}
-	c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
-	c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
-	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+	c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
 	utils.HTTPResponseHandler(c, data, http.StatusOK, "Login successful")
 }
 
@@ -353,9 +355,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("access_token", newToken.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
-	c.SetCookie("refresh_token", newToken.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
-	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+	c.SetCookie("access_token", newToken.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("refresh_token", newToken.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
 	utils.HTTPResponseHandler(c, newToken, http.StatusOK, "Tokens refreshed successfully")
 }
 
@@ -374,9 +376,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 //	@Router			/auth/logout [get]
 //	@Security		BearerAuth
 func (ac *AuthController) Logout(c *gin.Context) {
-	c.SetCookie("access_token", "", -1, "/", "localhost", false, true)
-	c.SetCookie("refresh_token", "", -1, "/", "localhost", false, true)
-	c.SetCookie("logged_in", "", -1, "/", "localhost", false, true)
+	c.SetCookie("access_token", "", -1, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("refresh_token", "", -1, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("logged_in", "", -1, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
 	utils.HTTPResponseHandler(c, nil, http.StatusOK, "Logout successful")
 }
 
@@ -417,8 +419,8 @@ func (ac *AuthController) ForgetPassword(c *gin.Context) {
 		utils.HTTPErrorHandler(c, err, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
-	c.SetCookie("access_token", token.AccessToken, 900, "/", "localhost", false, true)
-	c.SetCookie("refresh_token", token.RefreshToken, 900, "/", "localhost", false, true)
-	c.SetCookie("logged_in", "true", 900, "/", "localhost", false, true)
+	c.SetCookie("access_token", token.AccessToken, 900, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("refresh_token", token.RefreshToken, 900, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	c.SetCookie("logged_in", "true", 900, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
 	utils.HTTPResponseHandler(c, data, http.StatusOK, "Reset password link sent successfully")
 }

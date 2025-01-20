@@ -13,9 +13,23 @@ import (
 	docs "github.com/petmeds24/backend/docs"
 	"github.com/petmeds24/backend/pkg/rest/src/middlewares"
 	"github.com/petmeds24/backend/pkg/rest/src/routes"
+	"github.com/petmeds24/backend/pkg/rest/src/utils/constants"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+func init() {
+	gin.SetMode(gin.ReleaseMode)
+	log.SetFormatter(
+		&log.TextFormatter{
+			FullTimestamp:   true,
+			ForceColors:     true,
+			TimestampFormat: "2006-01-02 15:04:05",
+		},
+	)
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+}
 
 // @title						Ovoyagers API
 // @version					0.10
@@ -35,22 +49,10 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	var (
-		host    string
-		schemes []string
-	)
-
 	// Set up configuration
 	globalCfg := config.NewGlobalConfig(ctx)
 	cfg := globalCfg.GetConfig()
-
-	if cfg.ENVIRONMENT == "local" {
-		host = "localhost:4000"
-		schemes = []string{"http"}
-	} else {
-		host = "ovoyagers-web-backend.onrender.com"
-		schemes = []string{"https"}
-	}
+	consts := constants.GetConstants(cfg)
 
 	// Set up Gin server
 	server := gin.Default()
@@ -62,9 +64,9 @@ func main() {
 	mainRoute.SetupRoutes()
 
 	// dynamic docs
-	docs.SwaggerInfo.Host = host
+	docs.SwaggerInfo.Host = consts.BASE_URL
 	docs.SwaggerInfo.BasePath = "/api/v1"
-	docs.SwaggerInfo.Schemes = schemes
+	docs.SwaggerInfo.Schemes = []string{consts.SCHEMA}
 
 	// Swagger configuration
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true)))
@@ -83,17 +85,4 @@ func main() {
 
 	<-ctx.Done()
 	log.Info("Shutting down gracefully...")
-}
-
-func init() {
-	gin.SetMode(gin.ReleaseMode)
-	log.SetFormatter(
-		&log.TextFormatter{
-			FullTimestamp:   true,
-			ForceColors:     true,
-			TimestampFormat: "2006-01-02 15:04:05",
-		},
-	)
-	log.SetOutput(os.Stdout)
-	log.SetLevel(log.InfoLevel)
 }
