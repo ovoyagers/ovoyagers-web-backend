@@ -69,9 +69,9 @@ func main() {
 	// Swagger configuration
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler, ginSwagger.PersistAuthorization(true)))
 
-	// // No route found
-	// noRoute := routes.NewNoRoute()
-	// server.NoRoute(noRoute.NoRouteFound)
+	// No route found
+	noRoute := routes.NewNoRoute()
+	server.NoRoute(noRoute.NoRouteFound)
 
 	// Log and start server
 	log.Infof("Server is running in %s environment", cfg.ENVIRONMENT)
