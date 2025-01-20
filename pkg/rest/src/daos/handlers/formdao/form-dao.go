@@ -118,9 +118,9 @@ func (formDao *FormDao) GetForms(limit, page, offset int) ([]map[string]interfac
 func (formDao *FormDao) GetFormsByCategory(category string, limit, page, offset int) ([]map[string]interface{}, int, error) {
 	params := map[string]interface{}{
 		"category": category,
-		"limit":  limit,
-		"page":   page,
-		"offset": offset,
+		"limit":    limit,
+		"page":     page,
+		"offset":   offset,
 	}
 	// Query to get forms by category
 	query := `

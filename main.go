@@ -17,20 +17,20 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-//	@title						Ovoyagers API
-//	@version					0.10
-//	@description				This is a backend server for Ovoyagers.
-//	@termsOfService				http://swagger.io/terms/
-//	@contact.name				Pet Care
-//	@contact.url				https://google.com
-//	@contact.email				developer@ovoyagers.com
-//	@license.name				Apache 2.0
-//	@license.url				http://www.apache.org/licenses/LICENSE-2.0.html
-//	@BasePath					/api/v1
-//	@securityDefinitions.apiKey	BearerAuth
-//	@in							header
-//	@name						Authorization
-//	@description				Type "Bearer " before your access token
+// @title						Ovoyagers API
+// @version					0.10
+// @description				This is a backend server for Ovoyagers.
+// @termsOfService				http://swagger.io/terms/
+// @contact.name				Pet Care
+// @contact.url				https://google.com
+// @contact.email				developer@ovoyagers.com
+// @license.name				Apache 2.0
+// @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
+// @BasePath					/api/v1
+// @securityDefinitions.apiKey	BearerAuth
+// @in							header
+// @name						Authorization
+// @description				Type "Bearer " before your access token
 func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
