@@ -160,9 +160,9 @@ func (ac *AuthController) VerifyEmail(c *gin.Context) {
 		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
 		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
 	} else {
-		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
-		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
-		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
 	}
 	utils.HTTPResponseHandler(c, user, http.StatusOK, "Email verified successfully")
 }
@@ -305,9 +305,9 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
 		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
 	} else {
-		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
-		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
-		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
 	}
 	utils.HTTPResponseHandler(c, data, http.StatusOK, "Login successful")
 }
@@ -366,9 +366,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
 		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
 	} else {
-		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
-		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
-		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "ovoyagers-web-backend.onrender.com", true, true)
 	}
 	utils.HTTPResponseHandler(c, token, http.StatusOK, "Tokens refreshed successfully")
 }
@@ -393,9 +393,9 @@ func (ac *AuthController) Logout(c *gin.Context) {
 		c.SetCookie("refresh_token", "", -1, "/", "localhost", false, true)
 		c.SetCookie("logged_in", "", -1, "/", "localhost", false, true)
 	} else {
-		c.SetCookie("access_token", "", -1, "/", "bidmytour.com", true, true)
-		c.SetCookie("refresh_token", "", -1, "/", "bidmytour.com", true, true)
-		c.SetCookie("logged_in", "", -1, "/", "bidmytour.com", true, true)
+		c.SetCookie("access_token", "", -1, "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("refresh_token", "", -1, "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie("logged_in", "", -1, "/", "ovoyagers-web-backend.onrender.com", true, true)
 	}
 	utils.HTTPResponseHandler(c, nil, http.StatusOK, "Logout successful")
 }
