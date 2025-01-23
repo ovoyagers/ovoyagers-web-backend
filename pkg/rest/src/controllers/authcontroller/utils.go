@@ -2,6 +2,7 @@ package authcontroller
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -35,10 +36,11 @@ func handlePasswordlessLogin(c *gin.Context, ac *AuthController, email string) e
 	return nil
 }
 
-func setCookies(c *gin.Context, maxAge int, ac *AuthController, name, value string) {
+func setCookies(c *gin.Context, maxAge int, name, value string) {
 	domain := c.Request.Host
-	if domain == "localhost" {
-		domain = "localhost"
+	if !strings.Contains(domain, "localhost") {
+		c.SetCookie(name, value, maxAge, "/", "ovoyagers-web-backend.onrender.com", true, true)
+		c.SetCookie(name, value, maxAge, "/", "bidmytour.com", true, true)
 	}
-	c.SetCookie(name, value, maxAge, "/", domain, ac.consts.IS_SECURE, true)
+	c.SetCookie(name, value, maxAge, "/", "localhost", false, true)
 }

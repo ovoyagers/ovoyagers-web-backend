@@ -155,9 +155,9 @@ func (ac *AuthController) VerifyEmail(c *gin.Context) {
 		utils.HTTPErrorHandler(c, err, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "access_token", token.AccessToken)
-	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), ac, "refresh_token", token.RefreshToken)
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "logged_in", "true")
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "access_token", token.AccessToken)
+	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), "refresh_token", token.RefreshToken)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "logged_in", "true")
 	utils.HTTPResponseHandler(c, user, http.StatusOK, "Email verified successfully")
 }
 
@@ -294,9 +294,9 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 		"token": token,
 		"user":  user,
 	}
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "access_token", token.AccessToken)
-	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), ac, "refresh_token", token.RefreshToken)
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "logged_in", "true")
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "access_token", token.AccessToken)
+	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), "refresh_token", token.RefreshToken)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "logged_in", "true")
 	utils.HTTPResponseHandler(c, data, http.StatusOK, "Login successful")
 }
 
@@ -349,9 +349,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 		return
 	}
 
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "access_token", newToken.AccessToken)
-	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), ac, "refresh_token", newToken.RefreshToken)
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "logged_in", "true")
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "access_token", newToken.AccessToken)
+	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), "refresh_token", newToken.RefreshToken)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "logged_in", "true")
 	utils.HTTPResponseHandler(c, newToken, http.StatusOK, "Tokens refreshed successfully")
 }
 
@@ -370,9 +370,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 //	@Router			/auth/logout [get]
 //	@Security		BearerAuth
 func (ac *AuthController) Logout(c *gin.Context) {
-	setCookies(c, -1, ac, "access_token", "")
-	setCookies(c, -1, ac, "refresh_token", "")
-	setCookies(c, -1, ac, "logged_in", "")
+	setCookies(c, -1, "access_token", "")
+	setCookies(c, -1, "refresh_token", "")
+	setCookies(c, -1, "logged_in", "")
 	utils.HTTPResponseHandler(c, nil, http.StatusOK, "Logout successful")
 }
 
