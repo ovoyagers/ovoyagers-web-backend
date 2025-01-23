@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/petmeds24/backend/config"
@@ -20,11 +19,6 @@ type AuthController struct {
 	authService *authservice.AuthService
 	consts      *constants.Constants
 }
-
-var (
-	ACCESS_TOKEN_EXPIRY  = 15 * time.Minute    // 15 minutes
-	REFRESH_TOKEN_EXPIRY = 15 * time.Hour * 24 // 15 days
-)
 
 func NewAuthController(globalCfg *config.GlobalConfig) *AuthController {
 	return &AuthController{
@@ -161,9 +155,9 @@ func (ac *AuthController) VerifyEmail(c *gin.Context) {
 		utils.HTTPErrorHandler(c, err, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
-	c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "access_token", token.AccessToken)
+	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), ac, "refresh_token", token.RefreshToken)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "logged_in", "true")
 	utils.HTTPResponseHandler(c, user, http.StatusOK, "Email verified successfully")
 }
 
@@ -300,9 +294,9 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 		"token": token,
 		"user":  user,
 	}
-	c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "access_token", token.AccessToken)
+	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), ac, "refresh_token", token.RefreshToken)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "logged_in", "true")
 	utils.HTTPResponseHandler(c, data, http.StatusOK, "Login successful")
 }
 
@@ -322,8 +316,6 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 func (ac *AuthController) RefreshTokens(c *gin.Context) {
 	jwtUtil := utils.NewJWTUtil()
 	refreshToken, err := c.Cookie("refresh_token")
-	domain := c.Request.Host
-	log.Info("domain: ", domain)
 	if err != nil {
 		if refreshToken == "" {
 			refreshToken = c.Request.Header.Get("x-refresh-token")
@@ -357,9 +349,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("access_token", newToken.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("refresh_token", newToken.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "access_token", newToken.AccessToken)
+	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), ac, "refresh_token", newToken.RefreshToken)
+	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), ac, "logged_in", "true")
 	utils.HTTPResponseHandler(c, newToken, http.StatusOK, "Tokens refreshed successfully")
 }
 
@@ -378,9 +370,9 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 //	@Router			/auth/logout [get]
 //	@Security		BearerAuth
 func (ac *AuthController) Logout(c *gin.Context) {
-	c.SetCookie("access_token", "", -1, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("refresh_token", "", -1, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
-	c.SetCookie("logged_in", "", -1, "/", ac.consts.HOST, ac.consts.IS_SECURE, true)
+	setCookies(c, -1, ac, "access_token", "")
+	setCookies(c, -1, ac, "refresh_token", "")
+	setCookies(c, -1, ac, "logged_in", "")
 	utils.HTTPResponseHandler(c, nil, http.StatusOK, "Logout successful")
 }
 
