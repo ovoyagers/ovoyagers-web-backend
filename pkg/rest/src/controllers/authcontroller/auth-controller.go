@@ -155,9 +155,15 @@ func (ac *AuthController) VerifyEmail(c *gin.Context) {
 		utils.HTTPErrorHandler(c, err, http.StatusInternalServerError, "Failed to generate token")
 		return
 	}
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "access_token", token.AccessToken)
-	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), "refresh_token", token.RefreshToken)
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "logged_in", "true")
+	if strings.Contains(c.Request.Host, "localhost") {
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+	} else {
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+	}
 	utils.HTTPResponseHandler(c, user, http.StatusOK, "Email verified successfully")
 }
 
@@ -294,9 +300,15 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 		"token": token,
 		"user":  user,
 	}
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "access_token", token.AccessToken)
-	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), "refresh_token", token.RefreshToken)
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "logged_in", "true")
+	if strings.Contains(c.Request.Host, "localhost") {
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+	} else {
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+	}
 	utils.HTTPResponseHandler(c, data, http.StatusOK, "Login successful")
 }
 
@@ -343,16 +355,22 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 		return
 	}
 
-	newToken, err := jwtUtil.CreateToken(user["id"].(string), user["email"].(string))
+	token, err := jwtUtil.CreateToken(user["id"].(string), user["email"].(string))
 	if err != nil {
 		utils.HTTPErrorHandler(c, err, http.StatusInternalServerError, "Status Internal Server Error")
 		return
 	}
 
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "access_token", newToken.AccessToken)
-	setCookies(c, int(REFRESH_TOKEN_EXPIRY.Seconds()), "refresh_token", newToken.RefreshToken)
-	setCookies(c, int(ACCESS_TOKEN_EXPIRY.Seconds()), "logged_in", "true")
-	utils.HTTPResponseHandler(c, newToken, http.StatusOK, "Tokens refreshed successfully")
+	if strings.Contains(c.Request.Host, "localhost") {
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "localhost", false, true)
+	} else {
+		c.SetCookie("access_token", token.AccessToken, int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("refresh_token", token.RefreshToken, int(REFRESH_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+		c.SetCookie("logged_in", "true", int(ACCESS_TOKEN_EXPIRY.Seconds()), "/", "bidmytour.com", true, true)
+	}
+	utils.HTTPResponseHandler(c, token, http.StatusOK, "Tokens refreshed successfully")
 }
 
 // Logout is a method to logout a user
@@ -370,9 +388,15 @@ func (ac *AuthController) RefreshTokens(c *gin.Context) {
 //	@Router			/auth/logout [get]
 //	@Security		BearerAuth
 func (ac *AuthController) Logout(c *gin.Context) {
-	setCookies(c, -1, "access_token", "")
-	setCookies(c, -1, "refresh_token", "")
-	setCookies(c, -1, "logged_in", "")
+	if strings.Contains(c.Request.Host, "localhost") {
+		c.SetCookie("access_token", "", -1, "/", "localhost", false, true)
+		c.SetCookie("refresh_token", "", -1, "/", "localhost", false, true)
+		c.SetCookie("logged_in", "", -1, "/", "localhost", false, true)
+	} else {
+		c.SetCookie("access_token", "", -1, "/", "bidmytour.com", true, true)
+		c.SetCookie("refresh_token", "", -1, "/", "bidmytour.com", true, true)
+		c.SetCookie("logged_in", "", -1, "/", "bidmytour.com", true, true)
+	}
 	utils.HTTPResponseHandler(c, nil, http.StatusOK, "Logout successful")
 }
 
