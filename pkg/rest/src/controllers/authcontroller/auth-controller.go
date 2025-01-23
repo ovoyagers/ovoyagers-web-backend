@@ -322,6 +322,8 @@ func (ac *AuthController) LoginUser(c *gin.Context) {
 func (ac *AuthController) RefreshTokens(c *gin.Context) {
 	jwtUtil := utils.NewJWTUtil()
 	refreshToken, err := c.Cookie("refresh_token")
+	domain := c.Request.Host
+	log.Info("domain: ", domain)
 	if err != nil {
 		if refreshToken == "" {
 			refreshToken = c.Request.Header.Get("x-refresh-token")

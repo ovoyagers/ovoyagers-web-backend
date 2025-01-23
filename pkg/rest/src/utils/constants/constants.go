@@ -6,6 +6,8 @@ import (
 	"github.com/petmeds24/backend/config"
 )
 
+const Domain = "ovoyagers-web-backend.onrender.com"
+
 type Constants struct {
 	HOST            string `mapstructure:"HOST"`
 	PORT            string `mapstructure:"PORT"`
@@ -27,10 +29,10 @@ func GetConstants(cfg *config.Config) *Constants {
 		}
 	}
 	return &Constants{
-		HOST:            "ovoyagers-web-backend.onrender.com",
+		HOST:            "",
 		PORT:            "80",
-		BASE_URL:        "ovoyagers-web-backend.onrender.com",
-		SCHEMA_BASE_URL: fmt.Sprintf("%s://%s", "https", "ovoyagers-web-backend.onrender.com"),
+		BASE_URL:        Domain,
+		SCHEMA_BASE_URL: fmt.Sprintf("%s://%s", "https", Domain),
 		IS_SECURE:       true,
 		SCHEMA:          "https",
 	}
